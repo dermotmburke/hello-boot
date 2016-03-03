@@ -39,7 +39,7 @@ public class Application {
 	@ResponseBody
 	public Map<String, String> env() {
         Map<String, String> map = new HashMap<String, String>();
-        map.put("greeting", "hey there");
+        map.put("greeting", "howdy");
         return map;
     }
 
