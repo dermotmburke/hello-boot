@@ -9,7 +9,7 @@
 	<version>1.0.7</version>
 	<groupId>com.wiprodigital</groupId>
 	<artifactId>hello-boot</artifactId>
-	<name>Hello Boot Sample Application</name>
+	<name>hello-boot</name>
 	<description>Configuration Sample</description>
 	<url>http://projects.spring.io/spring-boot/</url>
 	<properties>
@@ -37,10 +37,6 @@
 		</dependency>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-jdbc</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-remote-shell</artifactId>
 		</dependency>
 		<dependency>
@@ -48,8 +44,16 @@
 			<artifactId>spring-cloud-starter-config</artifactId>
 		</dependency>
 		<dependency>
-			<groupId>com.h2database</groupId>
-			<artifactId>h2</artifactId>
+			<groupId>io.springfox</groupId>
+			<artifactId>springfox-swagger-ui</artifactId>
+			<version>2.2.2</version>
+			<scope>compile</scope>
+		</dependency>
+		<dependency>
+			<groupId>io.springfox</groupId>
+			<artifactId>springfox-swagger2</artifactId>
+			<version>2.2.2</version>
+			<scope>compile</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
@@ -80,6 +84,62 @@
 					<executable>true</executable>
 				</configuration>
 			</plugin>
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>rpm-maven-plugin</artifactId>
+				<version>2.1-alpha-4</version>
+				<extensions>true</extensions>
+				<executions>
+					<execution>
+						<phase>package</phase>
+						<goals>
+							<goal>attached-rpm</goal>
+						</goals>
+					</execution>
+				</executions>
+				<configuration>
+					<name>${project.name}</name>
+					<version>${project.version}</version>
+					<copyright>2014,codecentric</copyright>
+					<distribution>sles11</distribution>
+					<group>Application/codecentric</group>
+					<packager>jenkins</packager>
+					<changelogFile>src/changelog</changelogFile>
+					<vendor>sles</vendor>
+					<defineStatements>
+						<defineStatement>_unpackaged_files_terminate_build 0</defineStatement>
+					</defineStatements>
+					<mappings>
+						<mapping>
+							<directory>/opt/batch/${project.name}/</directory>
+							<filemode>755</filemode>
+							<username>batch</username>
+							<groupname>batch</groupname>
+							<sources>
+								<source>
+									<destination>${project.name}.jar</destination>
+									<location>target/${project.artifactId}-${project.version}.jar</location>
+								</source>
+							</sources>
+						</mapping>
+						<mapping>
+							<directory>/etc/init.d/</directory>
+							<username>root</username>
+							<groupname>root</groupname>
+							<sources>
+								<source>
+									<destination>${project.name}</destination>
+									<location>target/classes/initscript-template</location>
+								</source>
+							</sources>
+						</mapping>
+					</mappings>
+					<preremoveScriptlet>
+						<script><![CDATA[ if [ "$1" = "0" ]; then /etc/init.d/example-batch stop; fi]]></script>
+					</preremoveScriptlet>
+				</configuration>
+			</plugin>
 		</plugins>
+
 	</build>
 </project>

@@ -1,0 +1,48 @@
+#!/bin/sh
+#
+# Simple initscript for a Java application
+#
+
+# Verifies the status of the application
+verify_status() {
+  [...]
+}
+
+# Starts the application
+start() {
+  # First check if the application is already started
+  verify_status
+  # Start JVM
+  java -jar /opt/batch/example-batch/example-batch.jar >> /var/log/example-batch.log 2>&1 &
+}
+
+# Stopps the application
+stop() {
+  [...]
+}
+
+# Shows the application status on the console
+status() {
+  [...]
+}
+
+case "$1" in
+  start)
+    start
+    ;;
+  stop)
+    stop
+    ;;
+  status)
+    status
+    ;;
+  restart)
+    stop
+    start
+    ;;
+  *)
+    echo "Usage: $0 {start|stop|restart|status}"
+    exit 1
+esac
+
+exit 0
