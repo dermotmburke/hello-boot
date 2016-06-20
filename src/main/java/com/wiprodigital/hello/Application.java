@@ -1,20 +1,6 @@
-/*
- * Copyright 2012-2015 the original author or authors.
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-
 package com.wiprodigital.hello;
+
+import static springfox.documentation.builders.PathSelectors.regex;
 
 import java.util.Map;
 import java.util.HashMap;
@@ -23,12 +9,16 @@ import io.swagger.annotations.*;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+import springfox.documentation.builders.ApiInfoBuilder;
+import springfox.documentation.service.ApiInfo;
+import springfox.documentation.spi.DocumentationType;
+import springfox.documentation.spring.web.plugins.Docket;
 import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 @Configuration
@@ -45,16 +35,35 @@ public class Application {
             @ApiResponse(code = 403, message = "Forbidden"),
             @ApiResponse(code = 404, message = "Not Found"),
             @ApiResponse(code = 500, message = "Failure")})
-    @RequestMapping(value = "/", method = RequestMethod.GET)
+    @RequestMapping(value = "/api", method = RequestMethod.GET, produces = "application/json")
 	@ResponseBody
-	public Map<String, String> env() {
+	public Map<String, String> getGreeting() {
         Map<String, String> map = new HashMap<String, String>();
-        map.put("greeting", "Hi there?");
+        map.put("greeting", "Hi hows it going?");
         return map;
     }
 
     public static void main(String[] args) throws Exception {
 		SpringApplication.run(Application.class, args);
 	}
+
+    @Bean
+    public Docket api() {
+        return new Docket(DocumentationType.SWAGGER_2)
+                .apiInfo(apiInfo())
+                .select()
+                .paths(regex("/api.*"))
+                .build();
+    }
+
+    private ApiInfo apiInfo() {
+        return new ApiInfoBuilder()
+                .title("hello-boot")
+                .description("Hello Boot Sample Application")
+                .contact("Dermot Burke")
+                .license("Apache License Version 2.0")
+                .version("2.0")
+                .build();
+    }
 
 }

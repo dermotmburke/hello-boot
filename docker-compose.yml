@@ -1,0 +1,5 @@
+hello-boot:
+  container_name: hello-boot
+  image: gcr.io/primal-hybrid-133816/hello-bootv1:v1
+  ports:
+    - "8080:8080"
