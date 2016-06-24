@@ -1,5 +1,5 @@
 hello-boot:
   container_name: hello-boot
-  image: gcr.io/primal-hybrid-133816/hello-bootv1:${tag}
+  image: 601737501053.dkr.ecr.us-west-2.amazonaws.com/hello-boot:${tag}
   ports:
     - "8080:8080"
