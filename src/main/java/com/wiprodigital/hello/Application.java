@@ -39,7 +39,7 @@ public class Application {
 	@ResponseBody
 	public Map<String, String> getGreeting() {
         Map<String, String> map = new HashMap<String, String>();
-        map.put("greeting", "Hi There this is a new message?");
+        map.put("greeting", "Howdy");
         return map;
     }
 
