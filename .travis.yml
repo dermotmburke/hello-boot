@@ -15,7 +15,4 @@ deploy:
   file: "${RELEASE_FILE}"
   on:
     tags: false
-  branches:
-    only:
-    - master
 
