@@ -14,4 +14,5 @@ deploy:
   on:
     repo: dermotmburke/hello-boot
     tags: false
+    all_branches: true
 
