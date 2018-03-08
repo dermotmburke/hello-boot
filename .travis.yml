@@ -1,1 +1,39 @@
 language: java
+
+install: true
+
+matrix:
+  include:
+  - jdk: oraclejdk8
+
+script:
+  - gradle clean build
+  - gradle dist
+
+before_deploy:
+  - git config --global user.email "builds@travis-ci.com"
+  - git config --global user.name "Travis CI"
+  - export GIT_TAG=$TRAVIS_BRANCH-0.1.$TRAVIS_BUILD_NUMBER
+  - git tag $GIT_TAG -a -m "Generated tag from TravisCI for build $TRAVIS_BUILD_NUMBER"
+  - git push -q https://$TAGPERM@github.com/dermotmburke/hello-boot --tags
+  - ls -R
+
+deploy:
+  skip_cleanup: true
+  provider: releases
+  api_key:
+    secure: "HVRUANugEiCyq/P3bxm+lD0oZdcIXMECJd95ES60apVKLRpB3eD100EY5Jg0exZcgImrqw+vGrpZCBfxP95iiwYdExlT92yeBWWVUMerj/dymXm2Beka7t32UbMp85uWF5l6wndWWS8APzSdP+iD0dV5OKq1fpvpx4qZAj/huBZ62Gi0evc6U7tj0ooDRPxCnvC3szKB1gWQP4eAtcKuKPw1YwqkktT7WIvRQ+gfCQXe9F8qolJRlr3m9fx7B0z/8GTZLKN1FUVOw4Q6MGXAsCWQG06UGrM/wzOae/Sifcm12jf3tIpUdRZy0xCar3ScBp3kybiRGY+IaivH6cKj8jVsFCR3RBzgXIrMNCt2AruSZ1zRqnAi+7dgjNP8OzzUnmRi3rZURXsXc4oOwn0ifgzEvLUdkxLlAbv56dI5ANBiQgAwdKtrLiE8r64UhR7tWdVZjOhCqbiE2DuQoKQ5Z9BRETe++tU9YkIq0VOoWTTTdUf9SkMdQXzuqQCi3ZHxEwu36vWSn2SRQlprWJpzLPhRHOP82a8lscZzXafE7TtiRCZE1zAhYEJeuSAnOTi3AMOF9skIGRA3E0DBY641xAe3Bw+1scplgzEZM5wnRheDgjrnmqVUWjayO7gIShQ0/lQqtASzl+6a2mgEt16IxUL5JyOtJR6tJHW5O95LIPo="
+  file:
+    - "README.md"
+    - "libs/hello-boot-1.0.0.jar"
+  on:
+    tags: false
+    all_branches: true
+
+branches:
+  except:
+    - /^*-v[0-9]/
+
+env:
+  global:
+    secure: "HVRUANugEiCyq/P3bxm+lD0oZdcIXMECJd95ES60apVKLRpB3eD100EY5Jg0exZcgImrqw+vGrpZCBfxP95iiwYdExlT92yeBWWVUMerj/dymXm2Beka7t32UbMp85uWF5l6wndWWS8APzSdP+iD0dV5OKq1fpvpx4qZAj/huBZ62Gi0evc6U7tj0ooDRPxCnvC3szKB1gWQP4eAtcKuKPw1YwqkktT7WIvRQ+gfCQXe9F8qolJRlr3m9fx7B0z/8GTZLKN1FUVOw4Q6MGXAsCWQG06UGrM/wzOae/Sifcm12jf3tIpUdRZy0xCar3ScBp3kybiRGY+IaivH6cKj8jVsFCR3RBzgXIrMNCt2AruSZ1zRqnAi+7dgjNP8OzzUnmRi3rZURXsXc4oOwn0ifgzEvLUdkxLlAbv56dI5ANBiQgAwdKtrLiE8r64UhR7tWdVZjOhCqbiE2DuQoKQ5Z9BRETe++tU9YkIq0VOoWTTTdUf9SkMdQXzuqQCi3ZHxEwu36vWSn2SRQlprWJpzLPhRHOP82a8lscZzXafE7TtiRCZE1zAhYEJeuSAnOTi3AMOF9skIGRA3E0DBY641xAe3Bw+1scplgzEZM5wnRheDgjrnmqVUWjayO7gIShQ0/lQqtASzl+6a2mgEt16IxUL5JyOtJR6tJHW5O95LIPo="
