@@ -21,4 +21,4 @@ deploy:
   file: "libs/hello-boot-1.0.0.jar"
   skip_cleanup: true
   on:
-    tags: true
+    tags: false
