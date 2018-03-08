@@ -8,7 +8,6 @@ matrix:
 
 script:
   - gradle clean build
-  - gradle dist
 
 before_deploy:
   - git config --global user.email "builds@travis-ci.com"
