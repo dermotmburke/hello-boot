@@ -4,7 +4,8 @@ script:
 before_deploy:
 - git config --local user.name "Travis CI"
 - git config --local user.email "builds@travis-ci.com"
-- export RELEASE_FILE=$(ls build/libs *.jar)
+- export RELEASE_VERSION=$(./pipelineUtils.sh getProperty version gradle.properties)
+- export RELEASE_FILE=hello-boot-$RELEASE_VERSION.jar
 - git tag "$(./pipelineUtils.sh getProperty version gradle.properties)"
 deploy:
   provider: releases
