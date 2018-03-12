@@ -5,26 +5,22 @@ setUpGit() {
 
 buildAndBump() {
   gradle clean build
-  if [[ "${LAST_COMMIT_MESSAGE}" == "${CD_COMMIT_MESSAGE}" ]];
+  if [[ "${LAST_COMMIT_MESSAGE}" == "${CD_COMMIT_MESSAGE}" && $TRAVIS_BRANCH == 'master' ]];
+    echo "Skipping version bump"
   then
-      echo "Skipping version bump"
-  else
-    if [[ $TRAVIS_BRANCH == 'master' ]]
-    then
-      setUpGit
-      git checkout master
-      ./pipelineUtils.sh setProperty version $(./pipelineUtils.sh incrementVersion -p $(./pipelineUtils.sh getProperty version gradle.properties)) gradle.properties
-      git add gradle.properties
-      git commit -m "$CD_COMMIT_MESSAGE"
-      git push https://$GITHUB_USER:$GITHUB_TOKEN@github.com/dermotmburke/hello-boot.git master
-    fi
+    setUpGit
+    git checkout master
+    ./pipelineUtils.sh setProperty version $(./pipelineUtils.sh incrementVersion -p $(./pipelineUtils.sh getProperty version gradle.properties)) gradle.properties
+    git add gradle.properties
+    git commit -m "$CD_COMMIT_MESSAGE"
+    git push https://$GITHUB_USER:$GITHUB_TOKEN@github.com/$TRAVIS_REPO_SLUG master
   fi
 }
 
 prepareDeploy() {
   setUpGit
   git tag "$TRAVIS_TAG"
-  mv build/publications/mavenJava/pom-default.xml build/publications/mavenJava/pom.xml
+  mv build/publications/mavenJava/pom-default.xml build/publications/mavenJava/pom.xml 2>/dev/null
 }
 
 "$@"
