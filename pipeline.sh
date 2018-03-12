@@ -3,11 +3,11 @@ setUpGit() {
   git config --local user.email "builds@travis-ci.com"
 }
 
-buildAndBump() {
-  gradle clean build
-  if [[ "${LAST_COMMIT_MESSAGE}" == "${CD_COMMIT_MESSAGE}" && $TRAVIS_BRANCH == 'master' ]];
-    echo "Skipping version bump"
+build() {
+  if [[ "${LAST_COMMIT_MESSAGE}" == "${CD_COMMIT_MESSAGE}"]];
   then
+    echo "Skipping build"
+  else
     setUpGit
     git checkout master
     ./pipelineUtils.sh setProperty version $(./pipelineUtils.sh incrementVersion -p $(./pipelineUtils.sh getProperty version gradle.properties)) gradle.properties
@@ -16,6 +16,22 @@ buildAndBump() {
     git push https://$GITHUB_USER:$GITHUB_TOKEN@github.com/$TRAVIS_REPO_SLUG master
   fi
 }
+
+bump() {
+  gradle clean build
+  if [[ $TRAVIS_BRANCH == 'master' ]];
+  then
+    echo "Skipping bump"
+  else
+    setUpGit
+    git checkout master
+    ./pipelineUtils.sh setProperty version $(./pipelineUtils.sh incrementVersion -p $(./pipelineUtils.sh getProperty version gradle.properties)) gradle.properties
+    git add gradle.properties
+    git commit -m "$CD_COMMIT_MESSAGE"
+    git push https://$GITHUB_USER:$GITHUB_TOKEN@github.com/$TRAVIS_REPO_SLUG master
+  fi
+}
+
 
 prepareDeploy() {
   setUpGit
