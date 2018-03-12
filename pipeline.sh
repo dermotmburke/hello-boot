@@ -29,7 +29,7 @@ tag() {
     echo "Skipping tag"
   else
     setUpGit
-    git tag "$TRAVIS_TAG"
+    git tag "$TAG"
   fi
 }
 
