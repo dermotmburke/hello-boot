@@ -24,14 +24,9 @@ build() {
 }
 
 prepareDeploy() {
-  if [[ "${LAST_COMMIT_MESSAGE}" == "${CD_COMMIT_MESSAGE}" ]];
-  then
-    echo "Skipping prepareDeploy"
-  else
     setUpGit
     git tag "$TRAVIS_TAG"
     mv build/publications/mavenJava/pom-default.xml build/publications/mavenJava/pom.xml 2>/dev/null
-  fi
 }
 
 "$@"
