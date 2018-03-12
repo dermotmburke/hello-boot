@@ -15,7 +15,7 @@ build() {
       else
         setUpGit
         git checkout master
-        ./pipelineUtils.sh setProperty version $(./pipelineUtils.sh incrementVersion -p $(./pipelineUtils.sh getProperty version gradle.properties)) gradle.properties
+        setProperty version $(incrementVersion -p $(getProperty version gradle.properties)) gradle.properties
         git add gradle.properties
         git commit -m "$CD_COMMIT_MESSAGE"
         git push https://$GITHUB_USER:$GITHUB_TOKEN@github.com/$TRAVIS_REPO_SLUG master
@@ -23,10 +23,72 @@ build() {
    fi
 }
 
-prepareDeploy() {
+tag() {
     setUpGit
     git tag "$TRAVIS_TAG"
-    mv build/publications/mavenJava/pom-default.xml build/publications/mavenJava/pom.xml 2>/dev/null
+}
+
+setProperty() {
+  awk -v pat="^$1=" -v value="$1=$2" '{ if ($0 ~ pat) print value; else print $0; }' $3 > $3.tmp
+  mv $3.tmp $3
+}
+
+getProperty() {
+  PROP_KEY=$1
+  PROPERTY_FILE=$2
+  PROP_VALUE=`cat $PROPERTY_FILE | grep "$PROP_KEY" | cut -d'=' -f2`
+  echo $PROP_VALUE
+}
+
+incrementVersion() {
+  # Parse command line options.
+
+  while getopts ":Mmp" Option
+  do
+    case $Option in
+      M ) major=true;;
+      m ) minor=true;;
+      p ) patch=true;;
+    esac
+  done
+
+  shift $(($OPTIND - 1))
+
+  version=$1
+
+  # Build array from version string.
+
+  a=( ${version//./ } )
+
+  # If version string is missing or has the wrong number of members, show usage message.
+
+  if [ ${#a[@]} -ne 3 ]
+  then
+    echo "usage: $(basename $0) [-Mmp] major.minor.patch"
+    exit 1
+  fi
+
+  # Increment version numbers as requested.
+
+  if [ ! -z $major ]
+  then
+    ((a[0]++))
+    a[1]=0
+    a[2]=0
+  fi
+
+  if [ ! -z $minor ]
+  then
+    ((a[1]++))
+    a[2]=0
+  fi
+
+  if [ ! -z $patch ]
+  then
+    ((a[2]++))
+  fi
+
+  echo "${a[0]}.${a[1]}.${a[2]}"
 }
 
 "$@"

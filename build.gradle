@@ -6,7 +6,7 @@ apply plugin: 'java'
 apply plugin: 'maven'
 apply plugin: 'maven-publish'
 
-assemble.dependsOn dependsOn: ['generatePomFileForMavenJavaPublication']
+assemble.dependsOn dependsOn: ['copyPom']
 
 publishing {
     publications {
@@ -19,6 +19,15 @@ publishing {
     }
 }
 
+task copyPom(type: Copy, dependsOn: 'generatePomFileForMavenJavaPublication') {
+    from "${project.buildDir}/publications/mavenJava"
+    into "${project.buildDir}"
+    include "pom-default.xml"
+    rename { String fileName ->
+        fileName.replace("-default", "")
+    }
+}
+
 buildscript {
     repositories {
         mavenCentral()
@@ -27,8 +36,6 @@ buildscript {
         classpath("org.springframework.boot:spring-boot-gradle-plugin:2.0.0.RELEASE")
     }
 }
-
-
 
 repositories {
     mavenCentral()
@@ -44,6 +51,4 @@ dependencies {
     compile("io.springfox:springfox-swagger2:2.2.2")
     compile("io.springfox:springfox-swagger-ui:2.2.2")
     compile("org.springframework.boot:spring-boot-starter-web")
-    
-    
 }
