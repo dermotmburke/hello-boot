@@ -23,4 +23,4 @@ deploy:
   on:
     branch: master
     tags: true
-    condition: $LAST_COMMIT_MESSAGE != $CD_COMMIT_MESSAGE
+    condition: $TRAVIS_COMMIT_MESSAGE != $CD_COMMIT_MESSAGE
