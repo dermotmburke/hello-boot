@@ -22,7 +22,8 @@ deploy:
 after_deploy:
 - ./pipelineUtils.sh setProperty version $(./pipelineUtils.sh incrementVersion -p $(./pipelineUtils.sh getProperty version gradle.properties)) gradle.properties
 - git commit -am "Bump version number"
-- git push https://$GITHUB_TOKEN@github.com/dermotmburke/hello-boot.git master
+- git push git remote add origin-secure https://$GITHUB_TOKEN@github.com/dermotmburke/hello-boot.git
+- git push origin-secure master
 env:
   global:
   - TRAVIS_TAG=$(./pipelineUtils.sh getProperty version gradle.properties)
