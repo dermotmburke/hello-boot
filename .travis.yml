@@ -3,7 +3,7 @@ env:
   global:
   - TRAVIS_TAG=$(./pipeline.sh getProperty version gradle.properties)
   - RELEASE_FILE=build/libs/hello-boot-$TRAVIS_TAG.jar
-  - RELEASE_POM=build/pom.xml
+  - RELEASE_POM=build/publications/mavenJava/pom.xml
   - LAST_COMMIT_MESSAGE=$(git log -1 --pretty=%B | tr -d '\n')
   - CD_COMMIT_MESSAGE='[travis] Bump version number'
   - GITHUB_USER=dermotmburke
@@ -23,3 +23,4 @@ deploy:
   on:
     branch: master
     tags: true
+    condition: $LAST_COMMIT_MESSAGE != $CD_COMMIT_MESSAGE
