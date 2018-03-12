@@ -4,6 +4,7 @@ buildAndBump() {
   then
       echo "Skipping build"
   else
+    git checkout master
     gradle clean build
     ./pipelineUtils.sh setProperty version $(./pipelineUtils.sh incrementVersion -p $(./pipelineUtils.sh getProperty version gradle.properties)) gradle.properties
     git add gradle.properties
