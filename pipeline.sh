@@ -4,6 +4,8 @@ setUpGit() {
 }
 
 build() {
+  echo $TRAVIS_BRANCH
+  echo "Just echoed TRAVIS_BRANCH"
   if [[ "${LAST_COMMIT_MESSAGE}" == "${CD_COMMIT_MESSAGE}" ]];
   then
     echo "Skipping build"
