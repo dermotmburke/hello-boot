@@ -1,5 +1,6 @@
 buildAndBump() {
-  if [[ $(git log -1 --pretty=%B | tr -d '\n') == ${CD_COMMIT_MESSAGE} ]];
+  LAST_COMMIT_MESSAGE=$(git log -1 --pretty=%B | tr -d '\n')
+  if [[ "${LAST_COMMIT_MESSAGE}" == "${CD_COMMIT_MESSAGE}" ]];
   then
       echo "Skipping build"
   else
