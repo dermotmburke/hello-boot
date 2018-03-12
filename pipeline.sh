@@ -9,23 +9,19 @@ build() {
     echo "Skipping build"
   else
     gradle clean build
-  fi
+    if [[ $TRAVIS_BRANCH == 'master' ]];
+      then
+        echo "Skipping bump"
+      else
+        setUpGit
+        git checkout master
+        ./pipelineUtils.sh setProperty version $(./pipelineUtils.sh incrementVersion -p $(./pipelineUtils.sh getProperty version gradle.properties)) gradle.properties
+        git add gradle.properties
+        git commit -m "$CD_COMMIT_MESSAGE"
+        git push https://$GITHUB_USER:$GITHUB_TOKEN@github.com/$TRAVIS_REPO_SLUG master
+      fi
+   fi
 }
-
-bump() {
-  if [[ $TRAVIS_BRANCH == 'master' ]];
-  then
-    echo "Skipping bump"
-  else
-    setUpGit
-    git checkout master
-    ./pipelineUtils.sh setProperty version $(./pipelineUtils.sh incrementVersion -p $(./pipelineUtils.sh getProperty version gradle.properties)) gradle.properties
-    git add gradle.properties
-    git commit -m "$CD_COMMIT_MESSAGE"
-    git push https://$GITHUB_USER:$GITHUB_TOKEN@github.com/$TRAVIS_REPO_SLUG master
-  fi
-}
-
 
 prepareDeploy() {
   setUpGit

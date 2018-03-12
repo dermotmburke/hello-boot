@@ -5,10 +5,10 @@ env:
   - LAST_COMMIT_MESSAGE=$(git log -1 --pretty=%B | tr -d '\n')
   - CD_COMMIT_MESSAGE='[travis] Bump version number'
   - GITHUB_USER=dermotmburke
+  - TRAVIS_BRANCH=$TRAVIS_BRANCH
   - secure: JSUDyYXKteUYQvmah2dZd+pFTbL0v8imQfLp20qePA3CKf5YLKdqldCp2k2QiJLqa4FZUqnzqjUuzC/jDWexiiaZ6ZhH/AF8kFvsxJTNPbDQmDtly4/33CC+E41L1YqDOFYkyBlVN6jNe93GVeL5HHkqgzox2qnaL25lRAgdhJGXe/1ScbGL+4ylSmQFecLh4Ei7T0FEYWunUrL2f3iTrdit+5kZHkMNexZUHKtsP7uDulFcWsrpH2DLri4lwJOuEe7scW8DBWK/qC2BM+ewHiXEKylk2rezMNtVXhW3e90uWT7lSDsWWj41D803rnVEMAjoW7sLGqokatCwEtIWnr8bmH+SUYnnJ7HyOAe5mklLA9P/CqLkxIRRh4NMy4RC6D7NagiJs6QoROQl/0b+A7+WWfsAVc/K2y+QEtXYE7tSoK00grwXagKzXFEfAEnI8LNjCVXAOFsRWsDK+1WYBoo71ev9ZXQ9eyo1z7ymstaY1mXmR8UaASoo6Ml7SxZpnUHSpSKr1fIGqGfdS3rTzuw0aEDzR6AECfBP49wzdbJixqXMQni7nv8YeAgMFRrDFdJiNNWCsWztQjVILT+z7pyPSvG6rTRTKX4/tNC9669A7Jo5Da43Pi0MMTX56gZq0JOtLePonChhdbulaV6EMmViCvP15AaCxuZ7XSv+KDo=
 script:
 - ./pipeline.sh build
-- ./pipeline.sh bump
 before_deploy:
 - ./pipeline.sh prepareDeploy
 - export RELEASE_FILE=build/libs/hello-boot-$TRAVIS_TAG.jar
