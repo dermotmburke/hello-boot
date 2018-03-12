@@ -8,11 +8,7 @@ env:
 script:
 - ./pipeline.sh buildAndBump
 before_deploy:
-- git config --local user.name "Travis CI"
-- git config --local user.email "builds@travis-ci.com"
-- export RELEASE_FILE=build/libs/hello-boot-$TRAVIS_TAG.jar
-- git tag "$TRAVIS_TAG"
-- mv build/publications/mavenJava/pom-default.xml build/publications/mavenJava/pom.xml
+- ./pipeline.sh prepareDeploy
 deploy:
   provider: releases
   skip_cleanup: true
