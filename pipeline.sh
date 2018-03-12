@@ -11,7 +11,7 @@ build() {
     echo "Skipping build"
   else
     gradle clean build
-    if [[ $TRAVIS_BRANCH == 'master' ]];
+    if [[ $TRAVIS_BRANCH != 'master' ]];
       then
         echo "Skipping bump"
       else
