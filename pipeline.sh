@@ -4,21 +4,15 @@ setUpGit() {
 }
 
 build() {
-  if [[ "${LAST_COMMIT_MESSAGE}" == "${CD_COMMIT_MESSAGE}"]];
+  if [[ "${LAST_COMMIT_MESSAGE}" == "${CD_COMMIT_MESSAGE}" ]];
   then
     echo "Skipping build"
   else
-    setUpGit
-    git checkout master
-    ./pipelineUtils.sh setProperty version $(./pipelineUtils.sh incrementVersion -p $(./pipelineUtils.sh getProperty version gradle.properties)) gradle.properties
-    git add gradle.properties
-    git commit -m "$CD_COMMIT_MESSAGE"
-    git push https://$GITHUB_USER:$GITHUB_TOKEN@github.com/$TRAVIS_REPO_SLUG master
+    gradle clean build
   fi
 }
 
 bump() {
-  gradle clean build
   if [[ $TRAVIS_BRANCH == 'master' ]];
   then
     echo "Skipping bump"
