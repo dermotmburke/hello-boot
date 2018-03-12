@@ -25,7 +25,7 @@ build() {
 
 tag() {
     setUpGit
-    git tag "$TRAVIS_TAG" 2>/dev/null
+    git tag "$TRAVIS_TAG"
 }
 
 setProperty() {
