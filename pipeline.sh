@@ -24,7 +24,6 @@ buildAndBump() {
 
 prepareDeploy() {
   setUpGit
-  export RELEASE_FILE=build/libs/hello-boot-$TRAVIS_TAG.jar
   git tag "$TRAVIS_TAG"
   mv build/publications/mavenJava/pom-default.xml build/publications/mavenJava/pom.xml
 }

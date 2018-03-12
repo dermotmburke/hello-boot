@@ -9,6 +9,7 @@ script:
 - ./pipeline.sh buildAndBump
 before_deploy:
 - ./pipeline.sh prepareDeploy
+- export RELEASE_FILE=build/libs/hello-boot-$TRAVIS_TAG.jar
 deploy:
   provider: releases
   skip_cleanup: true
