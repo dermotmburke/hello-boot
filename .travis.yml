@@ -22,5 +22,5 @@ deploy:
     - "${RELEASE_POM}"
   on:
     branch: master
-    tags: true
+    tags: false
     condition: $LAST_COMMIT_MESSAGE != $CD_COMMIT_MESSAGE
