@@ -24,8 +24,13 @@ build() {
 }
 
 tag() {
+  if [[ "${LAST_COMMIT_MESSAGE}" == "${CD_COMMIT_MESSAGE}" ]];
+    then
+    echo "Skipping tag"
+  else
     setUpGit
     git tag "$TRAVIS_TAG"
+  fi
 }
 
 setProperty() {
