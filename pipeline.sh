@@ -8,7 +8,7 @@ build() {
   then
     echo "Skipping build"
   else
-    gradle clean build
+    #gradle clean build
     if [[ $TRAVIS_BRANCH != 'master' ]];
       then
         echo "Skipping bump"
