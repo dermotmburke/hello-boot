@@ -1,1 +1,1 @@
-Super basic spring boot example project
+Super basic spring boot example project with travis pipeline
