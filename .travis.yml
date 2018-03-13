@@ -1,4 +1,5 @@
 language: java
+Install: true
 env:
   global:
   - TAG=$(./pipeline.sh getProperty version gradle.properties)
