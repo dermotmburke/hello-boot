@@ -29,7 +29,7 @@ tag() {
     echo "Skipping tag"
   else
     setUpGit
-    git tag "$TAG"
+    git tag "$TAG" -m "$LAST_COMMIT_MESSAGE"
   fi
 }
 
