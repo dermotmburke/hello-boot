@@ -3,12 +3,12 @@ setUpGit() {
   git config --local user.email "builds@travis-ci.com"
 }
 
-build() {
+bump() {
   if [[ "${LAST_COMMIT_MESSAGE}" == "${CD_COMMIT_MESSAGE}" ]];
   then
     echo "Skipping build"
   else
-    #gradle clean build
+
     if [[ $TRAVIS_BRANCH != 'master' ]];
       then
         echo "Skipping bump"
