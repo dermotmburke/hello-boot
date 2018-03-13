@@ -24,5 +24,5 @@ deploy:
   on:
     branch: master
     tags: false
-    condition: "${LAST_COMMIT_MESSAGE}" != "${CD_COMMIT_MESSAGE}"
+    condition: "${LAST_COMMIT_MESSAGE} != ${CD_COMMIT_MESSAGE}"
 
