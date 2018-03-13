@@ -2,7 +2,7 @@ language: java
 env:
   global:
   - TAG=$(./pipeline.sh getProperty version gradle.properties)
-  - RELEASE_FILE=build/libs/hello-boot-$TRAVIS_TAG.jar
+  - RELEASE_FILE=build/libs/hello-boot-$TAG.jar
   - RELEASE_POM=build/pom.xml
   - LAST_COMMIT_MESSAGE=$(git log -1 --pretty=%B | tr -d '\n')
   - CD_COMMIT_MESSAGE='[travis] Bump version number'
