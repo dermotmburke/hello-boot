@@ -8,7 +8,7 @@ build() {
 }
 
 bump() {
-  if [[ "${LAST_COMMIT_MESSAGE}" == "${CD_COMMIT_MESSAGE}" && $TRAVIS_BRANCH != 'master']];
+  if [["${LAST_COMMIT_MESSAGE}" == "${CD_COMMIT_MESSAGE}"] && ["${TRAVIS_BRANCH}" != 'master']];
   then
       echo "Skipping bump"
     else
@@ -22,7 +22,7 @@ bump() {
 }
 
 tag() {
-  if [[ "${LAST_COMMIT_MESSAGE}" == "${CD_COMMIT_MESSAGE}" ]];
+  if [["${LAST_COMMIT_MESSAGE}" == "${CD_COMMIT_MESSAGE}" ]];
     then
     echo "Skipping tag"
   else
