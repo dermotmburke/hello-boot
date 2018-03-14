@@ -3,23 +3,21 @@ setUpGit() {
   git config --local user.email "builds@travis-ci.com"
 }
 
-bump() {
-  if [[ "${LAST_COMMIT_MESSAGE}" == "${CD_COMMIT_MESSAGE}" ]];
-  then
-    echo "Skipping build"
-  else
+build() {
+  gradle build
+}
 
-    if [[ $TRAVIS_BRANCH != 'master' ]];
-      then
-        echo "Skipping bump"
-      else
-        setUpGit
-        git checkout master
-        setProperty version $(incrementVersion -p $(getProperty version gradle.properties)) gradle.properties
-        git add gradle.properties
-        git commit -m "$CD_COMMIT_MESSAGE"
-        git push https://$GITHUB_USER:$GITHUB_TOKEN@github.com/$TRAVIS_REPO_SLUG master
-      fi
+bump() {
+  if [[ "${LAST_COMMIT_MESSAGE}" == "${CD_COMMIT_MESSAGE}" && $TRAVIS_BRANCH != 'master']];
+  then
+      echo "Skipping bump"
+    else
+      setUpGit
+      git checkout master
+      setProperty version $(incrementVersion -p $(getProperty version gradle.properties)) gradle.properties
+      git add gradle.properties
+      git commit -m "$CD_COMMIT_MESSAGE"
+      git push https://$GITHUB_USER:$GITHUB_TOKEN@github.com/$TRAVIS_REPO_SLUG master
    fi
 }
 
