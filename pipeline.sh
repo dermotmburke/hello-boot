@@ -1,6 +1,6 @@
 setUpGit() {
-  git config --local user.name "Travis CI"
-  git config --local user.email "builds@travis-ci.com"
+  git config --local user.name "$GIT_USERNAME"
+  git config --local user.email "$GIT_EMAIL"
 }
 
 build() {

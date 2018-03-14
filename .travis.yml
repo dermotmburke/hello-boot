@@ -1,6 +1,8 @@
 language: java
 env:
   global:
+  - GIT_USERNAME=Travis CI
+  - GIT_EMAIL=builds@travis-ci.com
   - TAG=$(./pipeline.sh getProperty version gradle.properties)
   - RELEASE_FILE=build/libs/hello-boot-$TAG.jar
   - RELEASE_POM=build/pom.xml
