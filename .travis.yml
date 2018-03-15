@@ -16,17 +16,6 @@ script:
 before_deploy:
 - ./pipeline.sh tag
 deploy:
-  - provider: releases
-    skip_cleanup: true
-    api_key:
-      secure: ZDvTvf+nVzyGBvyU3WgiihmJTG8gFhWl4F4+0wvfyujSkcc3HiH6+/e9PUbuFoTq9NoXYZY3gjygxqk+Yaux2M+SLdjvJGcFJtPNkNFaJq2w6x8k1YQr9/kfLSaC0kfAP7O5KUNNSgrBb5KyvMYdOWdp1R0s2pir0vd8QRJ8adIi7kN2rlR/1TvgzKzeZp1LZP+oC8VEqWi16yRUlaBSv+ZXy2fWqzAFIEVbmJ7R+jNtgueiYODEkuT/b8WsD4bAsTu2UgQnnM3hukm+OAbW4CBx8vwsOh6ufmYxboRzfIbc8XiQqep4NepDLAuVN57IAEcCy8//w/ri0XETU3gMt6Jl6SLXbHerWzU1gnbAXl8rSaxQEsw/yb9k2oOgVwSrkFbf6CO3RvYGvQhoUaXJfAkvebLwzPd7fUrqdXS5kVeWbWm8TKianzAJ/e8Q81qI8+W5K/RvzRsl6f4qaMR68sUWJgeI8lsxo/JTOFVwd4/DBqXZoK+8KQqG3Ndj5shd19LSUAAAUzquDaqlZVYl6/wo3h7bzZqbwW0dDhB2GHkN0g9nCww0dh9Kr5jG2k6gv/+QsoH18jPfii2jB/opXZDgC3FYTXTTDhQoSGR+K38PexCO+ZL/xXv3+d99USnUdb9CQKgisQDsMTOweH5RJ3fT+nYyng+Z6Fhlywyn/DM=
-    file:
-      - "${RELEASE_FILE}"
-      - "${RELEASE_POM}"
-    on:
-      branch: master
-      tags: false
-      condition: '"${LAST_COMMIT_MESSAGE}" != "${CD_COMMIT_MESSAGE}"'
   - provider: script
     script: gradle bintrayUpload -PbintrayUser=buildit -PbintrayKey=$BINTRAY_TOKEN -PdryRun=false
     on:
