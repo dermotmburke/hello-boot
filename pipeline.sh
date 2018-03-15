@@ -7,6 +7,10 @@ build() {
   gradle build
 }
 
+deploy() {
+  gradle bintrayUpload -PbintrayUser=buildit -PbintrayKey=$BINTRAY_TOKEN -PdryRun=false
+}
+
 bump() {
     setUpGit
     git checkout master
@@ -19,6 +23,7 @@ bump() {
 tag() {
   setUpGit
   git tag "$TAG" -m "$LAST_COMMIT_MESSAGE"
+  git push https://$GITHUB_USER:$GITHUB_TOKEN@github.com/$TRAVIS_REPO_SLUG $TAG
 }
 
 setProperty() {
