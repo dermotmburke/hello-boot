@@ -17,7 +17,7 @@ before_deploy:
 - ./pipeline.sh tag
 deploy:
   - provider: script
-    script: ./pipeline.sh deploy
+    script: gradle bintrayUpload -PbintrayUser=buildit -PbintrayKey=$BINTRAY_TOKEN -PdryRun=false
     skip_cleanup: true
     on:
       branch: master
