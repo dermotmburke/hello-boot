@@ -5,6 +5,7 @@ apply plugin: 'io.spring.dependency-management'
 apply plugin: 'java'
 apply plugin: 'maven'
 apply plugin: 'maven-publish'
+apply plugin: 'com.novoda.bintray-release'
 
 assemble.dependsOn dependsOn: ['copyPom']
 
@@ -19,6 +20,21 @@ publishing {
     }
 }
 
+
+buildscript {
+    repositories {
+        mavenCentral()
+        jcenter()
+
+    }
+    dependencies {
+        classpath("org.springframework.boot:spring-boot-gradle-plugin:2.0.0.RELEASE")
+    }
+    dependencies {
+        classpath 'com.novoda:bintray-release:0.8.0'
+    }
+}
+
 task copyPom(type: Copy, dependsOn: 'generatePomFileForMavenJavaPublication') {
     from "${project.buildDir}/publications/mavenJava"
     into "${project.buildDir}"
@@ -28,13 +44,12 @@ task copyPom(type: Copy, dependsOn: 'generatePomFileForMavenJavaPublication') {
     }
 }
 
-buildscript {
-    repositories {
-        mavenCentral()
-    }
-    dependencies {
-        classpath("org.springframework.boot:spring-boot-gradle-plugin:2.0.0.RELEASE")
-    }
+publish {
+    userOrg = 'buildit'
+    groupId = "${project.groupId}"
+    artifactId = "${project.artifactId}"
+    publishVersion = "${project.version}"
+    website = 'https://bintray.com/buildit/maven'
 }
 
 repositories {

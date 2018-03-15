@@ -10,22 +10,29 @@ env:
   - CD_COMMIT_MESSAGE='[travis] Bump version number'
   - GITHUB_USER=dermotmburke
   - secure: JSUDyYXKteUYQvmah2dZd+pFTbL0v8imQfLp20qePA3CKf5YLKdqldCp2k2QiJLqa4FZUqnzqjUuzC/jDWexiiaZ6ZhH/AF8kFvsxJTNPbDQmDtly4/33CC+E41L1YqDOFYkyBlVN6jNe93GVeL5HHkqgzox2qnaL25lRAgdhJGXe/1ScbGL+4ylSmQFecLh4Ei7T0FEYWunUrL2f3iTrdit+5kZHkMNexZUHKtsP7uDulFcWsrpH2DLri4lwJOuEe7scW8DBWK/qC2BM+ewHiXEKylk2rezMNtVXhW3e90uWT7lSDsWWj41D803rnVEMAjoW7sLGqokatCwEtIWnr8bmH+SUYnnJ7HyOAe5mklLA9P/CqLkxIRRh4NMy4RC6D7NagiJs6QoROQl/0b+A7+WWfsAVc/K2y+QEtXYE7tSoK00grwXagKzXFEfAEnI8LNjCVXAOFsRWsDK+1WYBoo71ev9ZXQ9eyo1z7ymstaY1mXmR8UaASoo6Ml7SxZpnUHSpSKr1fIGqGfdS3rTzuw0aEDzR6AECfBP49wzdbJixqXMQni7nv8YeAgMFRrDFdJiNNWCsWztQjVILT+z7pyPSvG6rTRTKX4/tNC9669A7Jo5Da43Pi0MMTX56gZq0JOtLePonChhdbulaV6EMmViCvP15AaCxuZ7XSv+KDo=
+  - secure: Y7sLJZq7PY23oiyNHnyo7lh+1k7BNTdlBO64g4nEf1S7Rje8eRuoUKVyyvYw9T8PLjgM+9cET9FYBnE84v4Lf68n6LoLaQyVWEmbc3/dx4NmsmSBD49aANbQg7gS2us3crxdazw+MhFpcQKtYm4G2soUgRSLjuO8H7eq6l2D26NN3DVGf5d3lCMWq/sg9pTRm2kJkQrwu8JbMN83sv/moTDzuq/Y2WsTL68CNoVIULg51e6FN+yGQash2uCDL9lpTXFk8E9welsQsy8q9xPqKl6E9qxBN14mZt9CWU27IEV3816LfRqAK48YuqmtejjAYyTCXczPCTTZ5P3eKVq/dy49hDu3asavW1HnDvt0bY74XUifDdg6G2EyLL5RQ+gwNz6ub+Dyw1xxeq5n8hY3l2iRZjOM6Zi2QNX53JKiEg5ntMZ5qCJil79x078iP+zd8Dnw+eUap0Fo0lnP6pPaPVar/KCFpOw1H3dfGBCMiImB+nct1tNvDAHJRrzWn7q1nztCGjXfGLFkMFhPkVvgkqYwdmSARd2hHsngDKVmAmxjPu2tCBJC+84U9pYArmVBhAw6szrHRaoIAMvAlobR++TnlNoKW24qNfTiDBh0AbOHiDjvZmq9dhRBaLsRAabZK75Rcepm+TZKcTpL4DSFFSVApUtoVw6F9L+lbO9oUMA=
 script:
 - ./pipeline.sh build
 before_deploy:
 - ./pipeline.sh tag
 deploy:
-  provider: releases
-  skip_cleanup: true
-  api_key:
-    secure: ZDvTvf+nVzyGBvyU3WgiihmJTG8gFhWl4F4+0wvfyujSkcc3HiH6+/e9PUbuFoTq9NoXYZY3gjygxqk+Yaux2M+SLdjvJGcFJtPNkNFaJq2w6x8k1YQr9/kfLSaC0kfAP7O5KUNNSgrBb5KyvMYdOWdp1R0s2pir0vd8QRJ8adIi7kN2rlR/1TvgzKzeZp1LZP+oC8VEqWi16yRUlaBSv+ZXy2fWqzAFIEVbmJ7R+jNtgueiYODEkuT/b8WsD4bAsTu2UgQnnM3hukm+OAbW4CBx8vwsOh6ufmYxboRzfIbc8XiQqep4NepDLAuVN57IAEcCy8//w/ri0XETU3gMt6Jl6SLXbHerWzU1gnbAXl8rSaxQEsw/yb9k2oOgVwSrkFbf6CO3RvYGvQhoUaXJfAkvebLwzPd7fUrqdXS5kVeWbWm8TKianzAJ/e8Q81qI8+W5K/RvzRsl6f4qaMR68sUWJgeI8lsxo/JTOFVwd4/DBqXZoK+8KQqG3Ndj5shd19LSUAAAUzquDaqlZVYl6/wo3h7bzZqbwW0dDhB2GHkN0g9nCww0dh9Kr5jG2k6gv/+QsoH18jPfii2jB/opXZDgC3FYTXTTDhQoSGR+K38PexCO+ZL/xXv3+d99USnUdb9CQKgisQDsMTOweH5RJ3fT+nYyng+Z6Fhlywyn/DM=
-  file:
-    - "${RELEASE_FILE}"
-    - "${RELEASE_POM}"
-  on:
-    branch: master
-    tags: false
-    condition: '"${LAST_COMMIT_MESSAGE}" != "${CD_COMMIT_MESSAGE}"'
+  - provider: releases
+    skip_cleanup: true
+    api_key:
+      secure: ZDvTvf+nVzyGBvyU3WgiihmJTG8gFhWl4F4+0wvfyujSkcc3HiH6+/e9PUbuFoTq9NoXYZY3gjygxqk+Yaux2M+SLdjvJGcFJtPNkNFaJq2w6x8k1YQr9/kfLSaC0kfAP7O5KUNNSgrBb5KyvMYdOWdp1R0s2pir0vd8QRJ8adIi7kN2rlR/1TvgzKzeZp1LZP+oC8VEqWi16yRUlaBSv+ZXy2fWqzAFIEVbmJ7R+jNtgueiYODEkuT/b8WsD4bAsTu2UgQnnM3hukm+OAbW4CBx8vwsOh6ufmYxboRzfIbc8XiQqep4NepDLAuVN57IAEcCy8//w/ri0XETU3gMt6Jl6SLXbHerWzU1gnbAXl8rSaxQEsw/yb9k2oOgVwSrkFbf6CO3RvYGvQhoUaXJfAkvebLwzPd7fUrqdXS5kVeWbWm8TKianzAJ/e8Q81qI8+W5K/RvzRsl6f4qaMR68sUWJgeI8lsxo/JTOFVwd4/DBqXZoK+8KQqG3Ndj5shd19LSUAAAUzquDaqlZVYl6/wo3h7bzZqbwW0dDhB2GHkN0g9nCww0dh9Kr5jG2k6gv/+QsoH18jPfii2jB/opXZDgC3FYTXTTDhQoSGR+K38PexCO+ZL/xXv3+d99USnUdb9CQKgisQDsMTOweH5RJ3fT+nYyng+Z6Fhlywyn/DM=
+    file:
+      - "${RELEASE_FILE}"
+      - "${RELEASE_POM}"
+    on:
+      branch: master
+      tags: false
+      condition: '"${LAST_COMMIT_MESSAGE}" != "${CD_COMMIT_MESSAGE}"'
+  - provider: script
+    script: gradle bintrayUpload -PbintrayUser=buildit -PbintrayKey=$BINTRAY_TOKEN -PdryRun=false
+    on:
+      branch: master
+      tags: false
+      condition: '"${LAST_COMMIT_MESSAGE}" != "${CD_COMMIT_MESSAGE}"'
 after_deploy:
 - ./pipeline.sh bump
 
